@@ -1,3 +1,7 @@
+.app{
+    height: 100vh;
+}
+
 .example-container {
     display: flex;
     flex-direction: column;
@@ -6,6 +10,8 @@
     bottom: 0;
     left: 0;
     right: 0;
+
+    height: 100vh;
   }
   
   .example-is-mobile .example-toolbar {
@@ -34,5 +40,37 @@
   
   h1.example-app-name {
     margin-left: 8px;
+    font-family: 'BackToBlack';
   }
   
+  mat-toolbar {
+    z-index: 10;     
+  }
+
+mat-sidenav {
+    width: 20vw;   
+}
+
+.mat-nav-list a.mat-list-item:hover {
+    background: #f778a2;
+    color: #FFF;
+}
+
+a.mat-list-item{
+    width: 100%;
+    font-family: 'BackToBlack';
+}
+
+a.mat-list-item i{
+    margin-right: 5px;
+}
+
+a.mat-list-item.active{
+    background: #ff4081;
+    color: #FFF;
+    font-weight: 600;
+}
+
+mat-sidenav-content{
+    padding: 10px 20px;
+}
