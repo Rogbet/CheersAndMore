@@ -1,3 +1,11 @@
-<p>
-  header works!
-</p>
+<mat-toolbar color="primary" class="example-toolbar mat-elevation-z10">
+    <button mat-icon-button (click)="toggleMenu()">
+        <mat-icon >menu</mat-icon>
+    </button>
+    <div>
+        <a [routerLink]="['/']" [routerLinkActive]="['active']">
+            <img src="../assets/cheersandmorelogo.jpg" class="imgLogo" (click)="closeSideNav()">
+        </a>
+    </div>
+    <h1 class="example-app-name">Cheers and More</h1>
+  </mat-toolbar>

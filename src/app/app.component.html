@@ -1,34 +1,7 @@
 <div class="example-container">
-    <mat-toolbar color="primary" class="example-toolbar mat-elevation-z10">
-      <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon >menu</mat-icon>
-      </button>
-      <div>
-          <a [routerLink]="['/']" [routerLinkActive]="['active']">
-              <img src="../assets/cheersandmorelogo.jpg" class="imgLogo" (click)="sidenav.close()">
-          </a>
-          
-      </div>
-      <h1 class="example-app-name">Cheers and More</h1>
-    </mat-toolbar>
+    <app-header #header (toggleEvent)="container.sidenav.toggle()" (closeSideNavEvent)="container.sidenav.close()"></app-header>
 
-    <mat-sidenav-container class="example-sidenav-container" (backdropClick)="close('backdrop')" >
-        <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose align="start" class="mat-elevation-z6">
-          
-          
-          <mat-nav-list>
-
-              <a mat-list-item [routerLink]="['/productos']" [routerLinkActive]="['active']" (click)="sidenav.close()"><i class="material-icons">note_add</i>Productos</a>
-              <a mat-list-item [routerLink]="['/calendario']" [routerLinkActive]="['active']" (click)="sidenav.close()"><i class="material-icons">today</i>Calendario</a>
-
-          </mat-nav-list>
-
-        </mat-sidenav>
-      
-        <mat-sidenav-content>
-            <router-outlet></router-outlet>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+    <app-container #container></app-container>
 </div>
 
 

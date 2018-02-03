@@ -23,6 +23,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 
 import { ProductService } from './services/product.service';
+import { ContainerComponent } from './components/container/container.component';
   // import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ProductService } from './services/product.service';
     LoginComponent,
     HeaderComponent,
     SidenavComponent,
-    CalendarComponent
+    CalendarComponent,
+    ContainerComponent
   ],
   imports: [
     BrowserModule,

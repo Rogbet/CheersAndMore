@@ -1,0 +1,17 @@
+<mat-sidenav-container class="example-sidenav-container app" (backdropClick)="close('backdrop')" >
+    <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose align="start" class="mat-elevation-z6">
+      
+      
+      <mat-nav-list>
+
+          <a mat-list-item [routerLink]="['/productos']" [routerLinkActive]="['active']" (click)="sidenav.close()"><i class="material-icons">note_add</i>Productos</a>
+          <a mat-list-item [routerLink]="['/calendario']" [routerLinkActive]="['active']" (click)="sidenav.close()"><i class="material-icons">today</i>Calendario</a>
+
+      </mat-nav-list>
+
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
