@@ -34,4 +34,5 @@ a.mat-list-item.active{
 
 mat-sidenav-content{
     padding: 10px 20px;
+    font-family: "Roboto","Helvetica Neue",sans-serif;
 }

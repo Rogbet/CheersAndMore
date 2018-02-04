@@ -1,4 +1,5 @@
-<div class="mat-elevation-z8">
+
+<!-- <div class="mat-elevation-z8"> -->
     <!-- <div class="example-loading-shade"
          *ngIf="isLoadingResults || isRateLimitReached">
       <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
@@ -13,13 +14,13 @@
         </mat-form-field>
       </div> -->
   
-    <mat-table #table [dataSource]="dataSource" class="example-table" matSort>
+    <!-- <mat-table #table [dataSource]="dataSource" class="example-table" matSort>
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
         <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
       </ng-container>
-      
+      <progress></progress>
       <ng-container matColumnDef="cost">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Costo</mat-header-cell>
         <mat-cell *matCellDef="let row">{{ row.cost | currency  }}</mat-cell>
@@ -41,5 +42,21 @@
                  [length]="5"
                   [pageIndex]="0"
                  [pageSizeOptions]="[2, 10, 20]">
-    </mat-paginator>
-  </div>
+    </mat-paginator> -->
+
+    <app-add-product></app-add-product>
+
+    <div *ngIf="products?.length > 0; else noItems">
+
+        <mat-list-item *ngFor="let product of products">
+            <h4 mat-line>{{product.id}}</h4>
+            <p mat-line> Precio: {{product.cost | currency}} - Fecha Creacion: {{product.createdDate | date}} </p>
+        </mat-list-item>
+    </div>
+    
+
+    <ng-template #noItems>
+      <br>
+      <h5>No hay productos para mostrar</h5>
+    </ng-template>
+  <!-- </div> -->

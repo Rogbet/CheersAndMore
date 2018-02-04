@@ -1,0 +1,73 @@
+<form>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+              <strong>Añadir nuevo producto</strong>
+          </mat-panel-title>
+          <mat-panel-description>
+            
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field>
+            <input matInput placeholder="Nombre" [formControl]="nameFormControl" [errorStateMatcher]="matcher" 
+            [(ngModel)]="product.name">
+            <mat-error *ngIf="nameFormControl.hasError('required')">
+              El nombre es <strong>requerido</strong>
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <input type="number" matInput placeholder="Precio" [formControl]="costFormControl" [errorStateMatcher]="matcher" 
+            [(ngModel)]="product.cost">
+            <mat-error *ngIf="costFormControl.hasError('required')">
+              El precio es <strong>requerido</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <div class="dropzone" 
+            dropZone
+            (hovered)="toggleHover($event)"
+            (dropped)="startUpload($event)"
+            [class.hovering]="isHovering">
+            <h3>Arrastre una imagen a esta zona</h3>
+            <div class="file">
+                <label class="file-label">
+                <input class="file-input" type="file" (change)="startUpload($event.target.files)">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fa fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      o seleccione un archivo…
+                    </span>
+                  </span>
+                </label>
+              </div>
+        </div>
+
+        <div *ngIf="percentage | async as pct">¡
+          <mat-progress-bar
+            [color]="warn"
+            [mode]="determinate"
+            [value]="pct">
+          </mat-progress-bar>
+
+          {{ pct | number }}%
+        </div>
+        <div *ngIf="snapshot | async as snap">
+          {{ snap.bytesTransferred | fileSize }} de {{ snap.totalBytes | fileSize }} 
+          <div *ngIf="downloadURL | async as url">
+            <img width="150" [src]="url"><br>
+          </div> 
+          <button (click)="task.pause()" class="button is-warning" [disabled]="!isActive(snap)">Pausar</button>
+          <button (click)="task.cancel()" class="button is-danger" [disabled]="!isActive(snap)">Cancelar</button>
+          <button (click)="task.resume()" class="button is-info"   [disabled]="!(snap?.state === 'paused')">Reanudar</button>
+        </div>
+
+        <mat-action-row>
+            <button mat-button [disabled]="nameFormControl.hasError('required') || costFormControl.hasError('required') || !completeUpload" (click)="save()">Guardar</button>
+          </mat-action-row>
+    </mat-expansion-panel>
+    
+</form>
