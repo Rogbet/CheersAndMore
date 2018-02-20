@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routing, appRoutingProviders} from './app.routing'; 
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -45,7 +46,7 @@ import { MatAutocompleteModule,
   } from '@angular/material';
 
 import { HomeComponent } from './components/home/home.component';
-import { ProductComponent } from './components/product/product.component';
+import { ProductComponent, DialogOverviewExampleDialog } from './components/product/product.component';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -56,6 +57,7 @@ import { ContainerComponent } from './components/container/container.component';
 import { DropZoneDirective } from './directives/drop-zone.directive';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { FileSizePipe } from './pipes/file-size.pipe';
+import { SnackbarService } from './services/snackbar.service';
   // import { FlexLayoutModule } from '@angular/flex-layout';
 
   @NgModule({
@@ -106,12 +108,14 @@ import { FileSizePipe } from './pipes/file-size.pipe';
     ContainerComponent,
     DropZoneDirective,
     AddProductComponent,
-    FileSizePipe
+    FileSizePipe,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    Ng2OrderModule,
     ReactiveFormsModule,
     routing,
     MaterialModule,
@@ -122,8 +126,10 @@ import { FileSizePipe } from './pipes/file-size.pipe';
     AngularFireStorageModule
   ],
   providers: [
-    ProductService
+    ProductService,
+    SnackbarService
   ],
+  entryComponents: [DialogOverviewExampleDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

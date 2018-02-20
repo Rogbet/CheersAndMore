@@ -1,62 +1,80 @@
+<app-add-product></app-add-product>
 
-<!-- <div class="mat-elevation-z8"> -->
-    <!-- <div class="example-loading-shade"
-         *ngIf="isLoadingResults || isRateLimitReached">
-      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-      <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-        GitHub's API rate limit has been reached. It will be reset in one minute.
-      </div>
-    </div> -->
+<br>
+<div *ngIf="products?.length > 0; else noItems">
 
-    <!-- <div class="example-header">
-        <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
-      </div> -->
-  
-    <!-- <mat-table #table [dataSource]="dataSource" class="example-table" matSort>
+    <mat-grid-list cols="4" rowHeight="400px">
+      <mat-grid-tile *ngFor="let product of products | orderBy: 'name' :false">
 
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
-      </ng-container>
-      <progress></progress>
-      <ng-container matColumnDef="cost">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Costo</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.cost | currency  }}</mat-cell>
-      </ng-container>
-      
-      <ng-container matColumnDef="created">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Fecha Creacion
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">{{ row.createdDate | date }}</mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  
-    <mat-paginator #paginator
-                 [pageSize]="10"
-                 [length]="5"
-                  [pageIndex]="0"
-                 [pageSizeOptions]="[2, 10, 20]">
-    </mat-paginator> -->
+          <mat-card class="product-card" >
+              <mat-card-header>
+                <img mat-card-avatar *ngIf="product.url" [src]="product.url">
+                <mat-card-title *ngIf="!editMode || (editMode && productEditedId != product.id)">{{product.name}}</mat-card-title>
+                <mat-card-subtitle *ngIf="!editMode || (editMode && productEditedId != product.id)">{{product.cost | currency}}</mat-card-subtitle>
 
-    <app-add-product></app-add-product>
+                <mat-card-title *ngIf="editMode && productEditedId == product.id" class="edit">
+                  <div   style="display:inline-block">
+                      <mat-form-field style="width:100px">
+                          <input matInput placeholder="Nombre" [(ngModel)]="productEdited.name" required>
+                      </mat-form-field>
 
-    <div *ngIf="products?.length > 0; else noItems">
+                      &nbsp;&nbsp;
+                  </div>
+                  
+                  <div style="display:inline-block">
+                    <mat-form-field style="width:100px">
+                        <span matPrefix>$&nbsp;</span>
+                        <input type="number" min="0" matInput placeholder="Precio" [(ngModel)]="productEdited.cost" required>
+                    </mat-form-field>
+                  </div>
+              </mat-card-title>
 
-        <mat-list-item *ngFor="let product of products">
-            <h4 mat-line>{{product.id}}</h4>
-            <p mat-line> Precio: {{product.cost | currency}} - Fecha Creacion: {{product.createdDate | date}} </p>
-        </mat-list-item>
-    </div>
+              </mat-card-header>
+              
+              <img mat-card-image *ngIf="product.url; else loadingImg" [src]="product.url" alt="product.name" 
+                  (click)="openDialog(product)">
+
+              <div class="edit-product-image">
+                <div>
+                    <label for="imageUpload" class=""><mat-icon>photo_camera</mat-icon>Actualizar imagen del producto</label>
+                    <input type="file" #imageUpload id="imageUpload" (change)="startUpload($event.target.files, product)" accept="image/*" style="display: none">
+                </div>
+              </div>
+
+              <!-- <mat-card-content>
+                <p>
+                    Fecha: {{product.createdDate | date}}
+                </p>
+              </mat-card-content> -->
+              <mat-card-actions>
+                <button *ngIf="!editMode || (editMode && productEditedId != product.id)" mat-raised-button color="accent" (click)="delete(product)">ELIMINAR</button>
+                <button *ngIf="!editMode || (editMode && productEditedId != product.id)" mat-raised-button color="primary" (click)="edit(product)">EDITAR</button>
+                
+                <button *ngIf="editMode && productEditedId == product.id" type="button" mat-mini-fab color="accent" (click)="cancel(product)" ><mat-icon>close</mat-icon></button>
+                <button *ngIf="editMode && productEditedId == product.id" type="button" mat-mini-fab color="primary" (click)="save(product)" [disabled]="!productEdited.name || !productEdited.cost"><mat-icon>save</mat-icon></button>
+
+              </mat-card-actions>
+            </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
     
+<br>
+    <mat-paginator [length]="totalProducts"
+        [pageSize]="pageSize" (page)="nextPage($event)">
+    </mat-paginator>
 
-    <ng-template #noItems>
-      <br>
-      <h5>No hay productos para mostrar</h5>
-    </ng-template>
-  <!-- </div> -->
+    <!-- [pageSizeOptions]="[4, 12, 24]"> -->
+</div>
+
+<ng-template #noItems>
+  <br>
+  <h5>No hay productos para mostrar</h5>
+</ng-template>
+
+<ng-template #loadingImg>
+  <div class="loading-image">
+    <span>
+        Cargando...
+    </span>
+  </div>
+</ng-template>

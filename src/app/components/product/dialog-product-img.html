@@ -1,0 +1,11 @@
+<div style="position:relative">
+    <button class="closeDialog" type="button" mat-mini-fab color="accent" mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title>
+    {{data.name}}
+</h1>
+
+<div mat-dialog-content>
+  <img [src]="data.url" style="width:100%">
+</div>

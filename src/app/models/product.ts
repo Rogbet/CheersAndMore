@@ -4,4 +4,5 @@ export interface Product{
     cost:number;
     path:string;
     createdDate: Date
+    url:string;
 }

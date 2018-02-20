@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Product} from '../../models/product';
 import { ProductService } from '../../services/product.service';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { Observable } from 'rxjs/Observable';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { tap } from 'rxjs/operators';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { SnackbarService } from '../../services/snackbar.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -22,37 +24,48 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class AddProductComponent implements OnInit {
-product: Product = {
- name:'',
- cost: null,
- path: '',
- createdDate: null
-}
+  product: Product = {
+  name:'',
+  cost: null,
+  path: '',
+  createdDate: null,
+  url:''
+  }
 
-completeUpload = false;
-
-  nameFormControl = new FormControl('', [
-    Validators.required
-  ]);
-  costFormControl = new FormControl('', [
-    Validators.required
-  ]);
-  // Main task 
+  completeUpload = false;
+  loading = false;
+  productForm: FormGroup;
   task: AngularFireUploadTask;
-  // Progress monitoring
   percentage: Observable<number>;
   snapshot: Observable<any>;
-  // Download URL
   downloadURL: Observable<string>;
-  // State for dropzone CSS toggling
   isHovering: boolean;
+  matcher = new MyErrorStateMatcher();
 
+  @ViewChild('panel') panel: MatExpansionPanel;
+  @ViewChild(FormGroupDirective)
+  formGroupDirective: FormGroupDirective;
+  @ViewChild('inputFile')
+  myInputVariable: any;
 
-  // matcher = new MyErrorStateMatcher();
+  name = new FormControl('', [
+    Validators.required
+  ]);
+  cost = new FormControl('', [
+    Validators.required
+  ]);
 
-  constructor(private storage: AngularFireStorage, private db: AngularFirestore, private productService: ProductService) { }
+  constructor(private storage: AngularFireStorage, 
+    private db: AngularFirestore, 
+    private productService: ProductService,
+    private snackbarService: SnackbarService
+  ) { }
 
   ngOnInit() {
+    this.productForm = new FormGroup ({
+      name: this.name,
+      cost: this.cost
+    })
   }
 
   toggleHover(event: boolean) {
@@ -86,11 +99,6 @@ completeUpload = false;
     )
     // The file's download URL
     this.downloadURL = this.task.downloadURL(); 
-
-
-    // this.downloadURL.subscribe(url => {
-    //   this.product.path = url;
-    // });
   }
   // Determines if the upload task is active
   isActive(snapshot) {
@@ -99,14 +107,34 @@ completeUpload = false;
 
   save(){
 
-    this.product.createdDate = new Date();
-    this.productService.addProduct(this.product);
+    if(this.productForm.valid){
+      this.product.createdDate = new Date();
+      this.loading = true;
+      this.productService.addProduct(this.product).then(() => {
+        this.loading = false;
+        this.snackbarService.openSnackBar("Un nuevo producto ha sido creado!", "Cerrar")
+        this.cancel();
+      }).catch(() => {
+        this.loading = false;
+      });
+    }
+  }
 
-    this.nameFormControl.reset();
-    this.costFormControl.reset();
+  cancel(){
+    this.panel.close();
+    
+    this.productForm.reset();
+    this.formGroupDirective.resetForm();
+
     this.product.createdDate = null;
     this.product.path = '';
 
+    this.clearUploadingFile();
+  }
+
+  clearUploadingFile(){
+    this.myInputVariable.nativeElement.value = "";
+    this.completeUpload = false;
     this.percentage = null;
     this.snapshot = null;
   }

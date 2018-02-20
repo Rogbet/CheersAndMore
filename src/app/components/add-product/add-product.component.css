@@ -3,7 +3,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column; 
-    height: 300px;
+    height: 150px;
+    max-width: 500px;
     border: 2px dashed #f16624;
     border-radius: 5px;
     background: white;
@@ -12,5 +13,34 @@
 
 .dropzone.hovering {
     border: 2px solid #f16624;
-    color: #dadada !important;
+    color: #fff !important;
+    background: #ccc;
+}
+
+.thumbnail{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #fff;
+}
+
+.mat-expansion-panel-header{
+    background: #f44336 !important;
+}
+
+.mat-expansion-panel-header:hover{
+    background: #f11f10 !important;
+}
+
+::ng-deep .mat-expansion-panel-content{
+    border: 1px solid rgb(244, 67, 54);
+    padding-top: 10px;
+}
+
+::ng-deep .mat-action-row{
+    border-top-color: rgb(244, 67, 54);
+
+}
+.mat-expansion-panel-header-title, ::ng-deep .mat-expansion-panel-header > .mat-expansion-indicator:after  {
+    color: #ffffff;
 }
