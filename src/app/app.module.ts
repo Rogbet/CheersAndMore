@@ -58,6 +58,8 @@ import { DropZoneDirective } from './directives/drop-zone.directive';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { SnackbarService } from './services/snackbar.service';
+import { IncomeComponent } from './components/income/income.component';
+import { ExpensesComponent } from './components/expenses/expenses.component';
   // import { FlexLayoutModule } from '@angular/flex-layout';
 
   @NgModule({
@@ -93,7 +95,8 @@ import { SnackbarService } from './services/snackbar.service';
       MatTabsModule,
       MatToolbarModule,
       MatTooltipModule,
-    ]
+    ],
+    declarations: [IncomeComponent, ExpensesComponent]
   })
   export class MaterialModule {}
 @NgModule({

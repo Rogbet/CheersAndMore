@@ -6,6 +6,8 @@ import { HomeComponent } from './components/home/home.component';
 import { AppComponent } from './app.component';
 import { ProductComponent } from './components/product/product.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { IncomeComponent } from './components/income/income.component';
+import { ExpensesComponent } from './components/expenses/expenses.component';
 // import { AuthenticationGuard } from './guards/authentication.guard'
 
 const appRoutes: Routes = [
@@ -14,6 +16,8 @@ const appRoutes: Routes = [
     { path:'home', component: HomeComponent},
     { path:'productos', component: ProductComponent},
     { path:'calendario', component: CalendarComponent},
+    { path:'ingresos', component: IncomeComponent},
+    { path:'egresos', component: ExpensesComponent},
     { path:'**', component: HomeComponent}
 ];
 
