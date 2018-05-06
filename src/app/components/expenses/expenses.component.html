@@ -1,3 +1,105 @@
-<p>
-  expenses works!
-</p>
+<div class="container">
+  <div class="aligner">
+    <div>
+      <h1>Egresos</h1>
+        <div class="well">
+          <label>Añade, consulta y edita tus egresos.
+          </label>
+
+          <div class="buttons">
+              <button mat-raised-button color="primary" [routerLink]="['/Egresos/Agregar']">Agregar Egreso</button>
+          </div>
+        </div>
+
+        <br>
+        <div>
+            <p-table [value]="expenses | async" [paginator]="true" [rows]="3" (onEditInit)="onEditInit($event)"
+            (onEditComplete)="onEditComplete($event)" 
+            (onEditCancel)="onEditCancel($event,$index)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Costo</th>
+                        <th>Fecha</th>
+                        <th style="width:3em"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-expense>
+                    <tr [pSelectableRow]="expense">
+                        <td>{{expense.name}}</td>
+                        <td pEditableColumn>
+                          <!-- {{expense.cost | currency}} -->
+                          <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                  <input type="txet" [(ngModel)]="expense.cost" required>
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                  {{expense.cost | currency}}
+                              </ng-template>
+                          </p-cellEditor>
+
+                        </td>
+                        <td pEditableColumn>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <!-- <input type="date" [(ngModel)]="expense.date" required> -->
+
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker" (click)="picker.open()" required [(ngModel)]="expense.date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{expense.date | date:'d-MMMM-y'}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <button pButton icon="fa-times" (click)="delete(expense)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+      
+  </div>
+  
+</div>
+
+<p-dialog header="Detalle del Egreso" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400">
+    <div class="ui-g ui-fluid" *ngIf="expense">
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Nombre</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="vin" [(ngModel)]="expense.name" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Costo</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="year" [(ngModel)]="expense.cost" />
+            </div>
+        </div>
+        <!-- <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="brand">Brand</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText id="brand" [(ngModel)]="car.brand" />
+            </div>
+        </div> -->
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="delete()" label="Eliminar"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Guardar"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+

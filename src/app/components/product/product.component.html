@@ -36,8 +36,8 @@
 
               <div class="edit-product-image">
                 <div>
-                    <label for="imageUpload" class=""><mat-icon>photo_camera</mat-icon>Actualizar imagen del producto</label>
-                    <input type="file" #imageUpload id="imageUpload" (change)="startUpload($event.target.files, product)" accept="image/*" style="display: none">
+                    <label for="imageUpload-{{product.id}}" class=""><mat-icon>photo_camera</mat-icon>Actualizar imagen del producto</label>
+                    <input type="file" #imageUpload id="imageUpload-{{product.id}}" (change)="startUpload($event.target.files, product)" accept="image/*" style="display: none">
                 </div>
               </div>
 

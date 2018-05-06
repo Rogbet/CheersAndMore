@@ -1,0 +1,54 @@
+
+<div class="goBackBtn">
+    <button mat-mini-fab [routerLink]="['/Egresos']" title="Regresar" >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>
+
+
+<div class="container">
+    <div class="aligner">
+      <form [formGroup]="expenseForm" (ngSubmit)="save()"> 
+        <div>
+          <h1>Agregar egreso</h1>
+
+          <div>
+            <mat-form-field style="width:100%">
+              <input matInput placeholder="Nombre" required [formControl]="name" [(ngModel)]="expense.name">
+              <mat-error *ngIf="name.invalid">
+                  El nombre es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div>
+            <mat-form-field style="width:100%">
+              <input type="number" matInput placeholder="Cantidad" required [formControl]="cost" [(ngModel)]="expense.cost">
+              <mat-error *ngIf="cost.invalid">
+                  La cantidad es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" readonly placeholder="Fecha" (click)="picker.open()" required [formControl]="date" [(ngModel)]="expense.date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker touchUi="true"></mat-datepicker>
+              <mat-error *ngIf="date.invalid">
+                  La fecha es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div style="margin-top:5px">
+              <button type="submit" mat-raised-button color="primary" [disabled]="!expenseForm.valid">Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+
+<mat-spinner *ngIf="loading"></mat-spinner>
+  
+  

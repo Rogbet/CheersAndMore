@@ -34,18 +34,6 @@ export class ProductService {
 
       return queri;
     });
-
-    // if(next === null){
-
-    // }
-    // else if(next){
-    //   this.productCollection = this.afs.collection<Product>('products', ref => 
-    //   ref.orderBy('name',"asc").startAfter(field).limit(pageSize));
-    // } else{
-    //   this.productCollection = this.afs.collection<Product>('products', ref => 
-    //   ref.orderBy('name',"asc").endBefore(field).limit(2));
-    // }
-
     
     this.products = this.productCollection.snapshotChanges().map(changes =>
       {
@@ -67,7 +55,7 @@ export class ProductService {
   }
 
   deleteProduct(product:Product){
-    
+    //TODO: DISABLE DELETING PRODUCT WHEN AN INCOME HAS BEEN REFERENCED TO
 
     if(confirm("¿Desea eliminar el producto?")){
       this.productDoc = this.afs.doc<Product>(`products/${product.id}` );

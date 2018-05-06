@@ -12,6 +12,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
+import { DropdownModule, InputTextModule, InputMaskModule, CheckboxModule, DialogModule, ButtonModule } from 'primeng/primeng';
+import { TableModule } from 'primeng/table';
+import { LOCALE_ID } from '@angular/core';
+
 import { MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -44,6 +48,7 @@ import { MatAutocompleteModule,
     MatTooltipModule,
     MatStepperModule,
   } from '@angular/material';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { HomeComponent } from './components/home/home.component';
 import { ProductComponent, DialogOverviewExampleDialog } from './components/product/product.component';
@@ -60,8 +65,14 @@ import { FileSizePipe } from './pipes/file-size.pipe';
 import { SnackbarService } from './services/snackbar.service';
 import { IncomeComponent } from './components/income/income.component';
 import { ExpensesComponent } from './components/expenses/expenses.component';
-  // import { FlexLayoutModule } from '@angular/flex-layout';
+import { AddExpenseComponent } from './components/add-expense/add-expense.component';
+import { AddIncomeComponent } from './components/add-income/add-income.component';
+import { ExpensesService } from './services/expenses.service';
+import { IncomeService } from './services/income.service';
+import { registerLocaleData } from '@angular/common';
+import localeMx from '@angular/common/locales/es-mx';
 
+registerLocaleData(localeMx);
   @NgModule({
     exports: [
       MatAutocompleteModule,
@@ -95,8 +106,10 @@ import { ExpensesComponent } from './components/expenses/expenses.component';
       MatTabsModule,
       MatToolbarModule,
       MatTooltipModule,
+      TableModule,
+      DialogModule,
+      ButtonModule
     ],
-    declarations: [IncomeComponent, ExpensesComponent]
   })
   export class MaterialModule {}
 @NgModule({
@@ -112,16 +125,21 @@ import { ExpensesComponent } from './components/expenses/expenses.component';
     DropZoneDirective,
     AddProductComponent,
     FileSizePipe,
-    DialogOverviewExampleDialog
+    IncomeComponent,
+    ExpensesComponent,
+    DialogOverviewExampleDialog,
+    AddExpenseComponent, 
+    AddIncomeComponent
   ],
   imports: [
+    MatButtonModule,
+    MaterialModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     Ng2OrderModule,
     ReactiveFormsModule,
     routing,
-    MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -130,7 +148,15 @@ import { ExpensesComponent } from './components/expenses/expenses.component';
   ],
   providers: [
     ProductService,
-    SnackbarService
+    ExpensesService,
+    IncomeService,
+    SnackbarService,
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'es-MX',
+    },
+    {
+      provide: LOCALE_ID, useValue: "es-MX"
+    }
   ],
   entryComponents: [DialogOverviewExampleDialog],
   bootstrap: [AppComponent]
